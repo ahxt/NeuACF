@@ -5,7 +5,7 @@ This is an implementation of paper  [(Aspect-Level Deep Collaborative Filtering 
 ### Requirements
 
 - Python 3.6
-- Tensorflow 1.4
+- Tensorflow 1.2
 
 ### How to Run
 
