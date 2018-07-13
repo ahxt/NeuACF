@@ -16,12 +16,8 @@ python ./acf.py ../dataset/amazon/ --mat "U.UIU,I.IUI,U.UITIU,I.ITI,U.UIVIU,I.IV
 
 ### Parameters
 
-
-
-
 Parameter | Note  
-- | :-: 
---mat|:sim_mat [default: ""]
+--mat|sim_mat [default: ""]
 --epochs|Embedding size [default: 40]
 --last_layer_size|               The number of iterations [default: 64]
 --num_of_layers|                The number of layers [default: 2]
@@ -30,3 +26,7 @@ Parameter | Note
 --batch_size|                batch_size [default: 1024]
 --mat_select|                mat select type [default: median]
 --merge|                batch_size [default: attention]
+
+
+#### Link
+For more information, visit the webpage http://www.shichuan.org
