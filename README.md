@@ -34,4 +34,4 @@ Parameter | Note
 For more information, visit the webpage http://www.shichuan.org
 
 #### Note
-A clearer code  will be available
+A clearer code  will be available later
