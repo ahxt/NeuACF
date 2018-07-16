@@ -2,6 +2,7 @@
 This is an implementation of paper  [(Aspect-Level Deep Collaborative Filtering via Heterogeneous Information Networks)](http://www.shichuan.org/doc/46.pdf). 
 
 
+
 ### Requirements
 
 - Python 3.6
@@ -31,3 +32,6 @@ Parameter | Note
 
 #### Link
 For more information, visit the webpage http://www.shichuan.org
+
+#### Note
+A clearer code  will be available
