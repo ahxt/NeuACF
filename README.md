@@ -23,7 +23,7 @@ Please refer our paper if you use this code and the bibtex of this paper is:
 - scipy 1.0.0
 
 ### How to Run
-1. unzip dataset.zip
+1. unzip dataset.7z
 2. Compute the aspect-level similarity matrix with the matlab code
 3. Run the model with the python code acf.py
 
