@@ -23,12 +23,13 @@ Please refer our paper if you use this code and the bibtex of this paper is:
 - scipy 1.0.0
 
 ### How to Run
-1. Compute the aspect-level similarity matrix with the matlab code
-2. Run the model with the python code acf.py
+1. unzip dataset.zip
+2. Compute the aspect-level similarity matrix with the matlab code
+3. Run the model with the python code acf.py
 
 example:
 ```
-python ./acf.py ../dataset/amazon/ amovie --mat "U.UIU,I.IUI,U.UITIU,I.ITI,U.UIVIU,I.IVI,U.UIAIU,I.ICI" --epochs 40 --last_layer_size 64 --batch_size 1024 --num_of_neg 10 --learn_rate 0.00005 --num_of_layers 2 --mat_select median
+ python ./acf.py ../dataset/amazon/ amovie --mat "U.UIU,I.IUI,U.UICIU,I.ICI" --epochs 40 --last_layer_size 64 --batch_size 1024 --num_of_neg 10 --learn_rate 0.00005 --num_of_layers 2 --mat_select median
 
 ```
 

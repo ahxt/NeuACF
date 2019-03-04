@@ -75,6 +75,7 @@ if( len(mat_list) == 8 ):
 
     U_feature_dir3 = dataset_dir + "/" +mat_list[4]+".pathsim.feature."+ mat_select
     I_feature_dir3 = dataset_dir + "/" +mat_list[5]+".pathsim.feature."+ mat_select
+
     U_feature_dir4 = dataset_dir + "/" +mat_list[6]+".pathsim.feature."+ mat_select
     I_feature_dir4 = dataset_dir + "/" +mat_list[7]+".pathsim.feature."+ mat_select
     
@@ -94,6 +95,7 @@ trian_ratings_sparse = pd.read_csv( trian_ratings_sparse_dir ,sep="\t", header=N
 aa = pd.read_csv( test_negative_dir, header=None, sep="\t",converters={0: eval} )
 aa = aa.set_index( 0 )
 test_instances = aa.T.to_dict(orient='list')
+
 
 ob_train = pd.read_csv( ob_train_dir, sep=",", header=None ).fillna( 0 ).as_matrix()
 U_feature = pd.read_csv( U_feature_dir, sep=",", header=None ).fillna( 0 ).as_matrix()
