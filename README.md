@@ -1,7 +1,8 @@
 # NeuACF
 This is an implementation of paper  [(Aspect-Level Deep Collaborative Filtering via Heterogeneous Information Networks)](https://www.ijcai.org/proceedings/2018/0471.pdf). 
 
-Please refer our paper if you use this code and the bibtex of this paper is
+Please refer our paper if you use this code and the bibtex of this paper is:
+```
 @inproceedings{han2018aspect,
    title={Aspect-Level Deep Collaborative Filtering via Heterogeneous Information Networks.},
    author="\textbf{Han, Xiaotian} and Shi, Chuan and Wang, Senzhang and Philip, S Yu and Song, Li",
@@ -9,7 +10,7 @@ Please refer our paper if you use this code and the bibtex of this paper is
    pages={3393--3399},
    year={2018}
  }
-
+```
 
 
 ### Requirements
