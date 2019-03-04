@@ -1,5 +1,4 @@
 # coding: utf-8
-from IPython import get_ipython
 from docopt import docopt
 import numpy as np
 import tensorflow as tf
@@ -12,11 +11,7 @@ import pandas as pd
 from scipy.io import loadmat
 from tensorflow.contrib.data import Dataset, Iterator
 from sklearn.utils import shuffle
-np.random.seed( 1314 )
-
-from docopt import docopt
-
-
+# np.random.seed( 1314 )
 
 args = docopt("""
     Usage:
@@ -51,12 +46,8 @@ num_negs = int( args['--num_of_neg'] )
 learn_rate = float( args['--learn_rate'] )
 batch_size = int( args['--batch_size'] )
 
-
-print( "#",dataset_dir,dataset, mat_list,epochs,num_of_layers,num_negs,learn_rate,batch_size  )
 for key in args:
     print( "#", key, args[key] )
-
-
 
 trian_ratings_sparse_dir = dataset_dir + dataset +".train.rating"
 test_negative_dir = dataset_dir + dataset +".test.negative"
@@ -64,12 +55,8 @@ test_negative_dir = dataset_dir + dataset +".test.negative"
 
 ob_train_dir =  dataset_dir  + "U.feature"
 
-
-
 U_feature_dir = dataset_dir + "/" +mat_list[0]+".pathsim.feature." + mat_select
 I_feature_dir = dataset_dir + "/" +mat_list[1]+".pathsim.feature." + mat_select
-
-
 
 
 if( len(mat_list) == 2 ):
@@ -101,14 +88,7 @@ if( len(mat_list) == 6 ):
     U_feature_dir4 = dataset_dir + "/" +mat_list[0]+".pathsim.feature."+ mat_select
     I_feature_dir4 = dataset_dir + "/" +mat_list[1]+".pathsim.feature."+ mat_select
 
-
-print( U_feature_dir,U_feature_dir2,U_feature_dir3,U_feature_dir4 )
-print( I_feature_dir,I_feature_dir2,I_feature_dir3,I_feature_dir4 ) 
-
-
-
 trian_ratings_sparse = pd.read_csv( trian_ratings_sparse_dir ,sep="\t", header=None ).as_matrix()
-
 
 
 aa = pd.read_csv( test_negative_dir, header=None, sep="\t",converters={0: eval} )
@@ -116,43 +96,40 @@ aa = aa.set_index( 0 )
 test_instances = aa.T.to_dict(orient='list')
 
 ob_train = pd.read_csv( ob_train_dir, sep=",", header=None ).fillna( 0 ).as_matrix()
-
-
 U_feature = pd.read_csv( U_feature_dir, sep=",", header=None ).fillna( 0 ).as_matrix()
-print( "U_feature1 shape:", U_feature.shape  )
-
+print( "# U_feature1 shape:", U_feature.shape  )
 I_feature = pd.read_csv( I_feature_dir, sep=",", header=None ).fillna( 0 ).as_matrix()
-print( "I_feature1 shape:", I_feature.shape  )
-
+print( "# I_feature1 shape:", I_feature.shape  )
 I_feature_num = I_feature.shape[1]
 U_feature_num = U_feature.shape[1]
 
 
 U_feature2 = pd.read_csv( U_feature_dir2, sep=",", header=None ).fillna( 0 ).as_matrix()
-print( "U_feature2 shape:", U_feature2.shape  )
+print( "# U_feature2 shape:", U_feature2.shape  )
 I_feature2 = pd.read_csv( I_feature_dir2, sep=",", header=None ).fillna( 0 ).as_matrix()
-print( "I_feature2 shape:", I_feature2.shape  )
+print( "# I_feature2 shape:", I_feature2.shape  )
 I_feature_num2 = I_feature2.shape[1]
 U_feature_num2 = U_feature2.shape[1]
-print( I_feature_num2, U_feature_num2 )
+# print( I_feature_num2, U_feature_num2 )
 
 
 U_feature3 = pd.read_csv( U_feature_dir3, sep=",", header=None ).fillna( 0 ).as_matrix()
-print( "U_feature3 shape:", U_feature3.shape  )
+print( "# U_feature3 shape:", U_feature3.shape  )
 I_feature3 = pd.read_csv( I_feature_dir3, sep=",", header=None ).fillna( 0 ).as_matrix()
-print( "I_feature3 shape:", I_feature3.shape  )
+print( "# I_feature3 shape:", I_feature3.shape  )
 I_feature_num3 = I_feature3.shape[1]
 U_feature_num3 = U_feature3.shape[1]
-print( I_feature_num3, U_feature_num3 )
+# print( I_feature_num3, U_feature_num3 )
 
 
 U_feature4 = pd.read_csv( U_feature_dir4, sep=",", header=None ).fillna( 0 ).as_matrix()
-print( "U_feature3 shape:", U_feature4.shape  )
+print( "# U_feature3 shape:", U_feature4.shape  )
 I_feature4 = pd.read_csv( I_feature_dir4, sep=",", header=None ).fillna( 0 ).as_matrix()
-print( "I_feature3 shape:", I_feature4.shape  )
+print( "# I_feature3 shape:", I_feature4.shape  )
 I_feature_num4 = I_feature4.shape[1]
 U_feature_num4 = U_feature4.shape[1]
-print( I_feature_num4, U_feature_num4 )
+# print( I_feature_num4, U_feature_num4 )
+
 
 I_num = I_feature.shape[0]
 U_num = U_feature.shape[0]
@@ -177,6 +154,7 @@ def get_train_instances( trian_ratings_sparse, num_negs, U_feature, I_feature, o
         I_feature_i = I_feature[i].copy()
         item_input.append( [i] )
         labels.append([1.])
+        # negative instances
         for t in range(num_negs):
             j = np.random.randint(num_items)
             while ob_train[u][j] != 0:
@@ -188,11 +166,33 @@ def get_train_instances( trian_ratings_sparse, num_negs, U_feature, I_feature, o
 
 
 
-print( "Starting Negtive Sample..." )
+print( "# Starting Negtive Sample..." )
 user_input, item_input, labels = get_train_instances( trian_ratings_sparse, num_negs, U_feature, I_feature)
-print("#instances:", len( user_input ) )
-print( "Negtive Sample Done" )
+print( "# All Traing Instances:", len( user_input ) )
+print( "# Negtive Sample Done" )
 
+
+def fm( U, I,  U_num, I_num ,k = 5):
+    X = tf.concat([U, I], 1)
+    p = U_num + I_num
+    print("p:", p)
+    w0 = tf.Variable(tf.zeros([1]))
+    W = tf.Variable(tf.zeros([p]))
+    print( W )
+    print( X )
+
+    # interaction factors, randomly initialized 
+    V = tf.Variable(tf.random_normal([k, p], stddev=0.01))
+
+    linear_terms = tf.add(w0, tf.reduce_sum(tf.multiply(W, X), 1, keep_dims=True))
+    pair_interactions = (tf.multiply(0.5,
+                    tf.reduce_sum(
+                        tf.subtract(
+                            tf.pow( tf.matmul(X, tf.transpose(V)), 2),
+                            tf.matmul(tf.pow(X, 2), tf.transpose(tf.pow(V, 2)))),
+                        1, keep_dims=True)))
+    y_hat = tf.add(linear_terms, pair_interactions)
+    return tf.nn.sigmoid( y_hat )
 
 
 
@@ -208,9 +208,6 @@ def HIN_MODEL(name,U_embedding, I_embedding, U_feature_num, I_feature_num, hidde
     
     u_w4 = tf.get_variable(str(name)+"_u_w4", shape=(last_layer_size, last_layer_size), initializer=tf.contrib.layers.xavier_initializer())
     u_b4 = tf.get_variable(str(name)+"_u_b4", shape=[last_layer_size], initializer=tf.contrib.layers.xavier_initializer())
-
-
-    
     v_w1 = tf.get_variable(str(name)+"_v_w1", shape=(I_feature_num, hidden_size), initializer=tf.contrib.layers.xavier_initializer())
     v_b1 = tf.get_variable(str(name)+"_v_b1", shape=[hidden_size], initializer=tf.contrib.layers.xavier_initializer())
     v_w2 = tf.get_variable(str(name)+"_v_w2", shape=(hidden_size, last_layer_size), initializer=tf.contrib.layers.xavier_initializer())
@@ -224,21 +221,28 @@ def HIN_MODEL(name,U_embedding, I_embedding, U_feature_num, I_feature_num, hidde
     
     
     net_u_2 = tf.nn.relu( tf.matmul(U_embedding, u_w1) + u_b1 )
-
     net_v_2 = tf.nn.relu( tf.matmul(I_embedding, v_w1) + v_b1 )
-
     
     if( num_of_layers == 1 ):
         return net_u_2, net_v_2 
-    
-    net_u_2 = tf.matmul(net_u_2, u_w2) + u_b2 
 
+    net_u_2 = tf.matmul(net_u_2, u_w2) + u_b2 
     net_v_2 = tf.matmul(net_v_2, v_w2) + v_b2 
     if( num_of_layers == 2 ):
         return net_u_2, net_v_2 
+    net_u_2 = tf.matmul(net_u_2, u_w3) + u_b3
+    net_v_2 = tf.matmul(net_v_2, v_w3) + v_b3
+    if( num_of_layers == 3 ):
+        return net_u_2, net_v_2 
+    net_u_2 = tf.matmul(net_u_2, u_w4) + u_b4
+    net_v_2 = tf.matmul(net_v_2, v_w4) + v_b4
     return net_u_2, net_v_2
 
 
+def cosineSim( U, I ):
+    fen_zhi = tf.reduce_sum(U * I, 1, keep_dims=True)
+    pred_val = tf.nn.sigmoid( fen_zhi )
+    return pred_val
 
 
 def cosineSim_new( name,U, I ):
@@ -251,7 +255,6 @@ def cosineSim_new( name,U, I ):
     print( tf.matmul(X, W) + b )
 
     pred_val = tf.nn.sigmoid( tf.matmul(X, W) + b )
-
     return pred_val
 
 def gen_embedding_matrix( name, U_num, U_feature_num,U_feature, I_num ,I_feature_num, I_feature):
@@ -272,8 +275,6 @@ tf.reset_default_graph()
 U_feature_input = tf.placeholder(tf.int32, [None,1])
 I_feature_input = tf.placeholder(tf.int32, [None,1])
 true_rating = tf.placeholder(tf.float32, [None, 1])
-
-
 
 U_embedding_matrix,I_embedding_matrix =  gen_embedding_matrix( "1", U_num, U_feature_num,U_feature, I_num ,I_feature_num, I_feature  )
 
@@ -313,20 +314,18 @@ I_embedding_all = tf.concat( [I_embedding,I_embedding2,I_embedding3],1 )
 
 U1, I1 = HIN_MODEL("ob", U_embedding, I_embedding, U_feature_num, I_feature_num, 600)
 
-
 U2, I2 = HIN_MODEL("iui", U_embedding2, I_embedding2, U_feature_num2, I_feature_num2,600)
-
 
 U3, I3 = HIN_MODEL("ui", U_embedding3, I_embedding3, U_feature_num3, I_feature_num3,600)
 
 U4, I4 = HIN_MODEL("4", U_embedding4, I_embedding4, U_feature_num4, I_feature_num4,600)
 
 
-
 View1 = tf.concat([U1, I1], 1)
 View2 = tf.concat([U2, I2], 1)
 View3 = tf.concat([U3, I3], 1)
 View4 = tf.concat([U4, I4], 1)
+
 
 def attention(name, input_vec):
     att_w1 = tf.get_variable( name+"att_w1", shape=(last_layer_size, 64 ), initializer=tf.contrib.layers.xavier_initializer())
@@ -365,7 +364,10 @@ if( len(mat_list) == 2 ):
     I = w1/(w1+w2+w3)*I1 + w2/(w1+w2+w3)*I2 + w3/(w1+w2+w3)*I3
 
 
-
+pred_val1 = cosineSim( U1, I1 )
+pred_val2 = cosineSim( U2, I2 )
+pred_val3 = cosineSim( U3, I3 )
+pred_val4 = cosineSim( U4, I4 )
 pred_val5 = cosineSim( U, I )
 
 
@@ -374,22 +376,23 @@ if( len(mat_list) == 2 ):
 else:
     pred_val = pred_val5
 
-
+    
 one_constant = tf.constant(1.0, shape=[1, 1])
-loss = tf.reduce_mean(
+gmf_loss = tf.reduce_mean(
                 - true_rating * tf.log(pred_val + 1e-10) 
                 - (one_constant - true_rating) * tf.log(one_constant - pred_val + 1e-10)
             )
-train_step = tf.train.AdamOptimizer(learn_rate).minimize(loss)
 
+
+loss_all = gmf_loss
+
+train_step = tf.train.AdamOptimizer(learn_rate).minimize(loss_all)
 
 
 config = tf.ConfigProto()
-
 config.gpu_options.allow_growth=True  
 sess = tf.InteractiveSession(config=config)
 tf.global_variables_initializer().run()
-
 
 def getHitRatio(ranklist, gtItem):
     for item in ranklist:
@@ -405,17 +408,13 @@ def getNDCG(ranklist, gtItem):
             return math.log(2) / math.log(i + 2)
     return 0.0
 
+
 final_ndcg_metric_list_10 = []
 final_hr_metric_list_10 = []
-
-
 final_ndcg_metric_list_5 = []
 final_hr_metric_list_5 = []
-
-
 final_ndcg_metric_list_15 = []
 final_hr_metric_list_15 = []
-
 final_ndcg_metric_list_20 = []
 final_hr_metric_list_20 = []
 
@@ -424,12 +423,11 @@ for epoch in range( epochs ):
     one_epoch_loss = 0.0
     one_epoch_batchnum = 0.0
     user_input, item_input, labels = shuffle(user_input, item_input, labels)
-    print( "start traing...." )
+    print( "# Start Traing...." )
     for index in range( len(user_input) // batch_size + 1 ):
         batch_u =  user_input[index * batch_size:(index + 1) * batch_size]
         batch_i =  item_input[index * batch_size:(index + 1) * batch_size]
         batch_labels =  labels[index * batch_size:(index + 1) * batch_size]
-            
         _, loss_val, pred_value,w1_ob,w2_ob,w3_ob = sess.run(
             [train_step, gmf_loss, pred_val,w1,w2,w3],
             feed_dict={U_feature_input: batch_u, I_feature_input: batch_i, true_rating: batch_labels})
@@ -437,11 +435,17 @@ for epoch in range( epochs ):
         one_epoch_loss += loss_val
         one_epoch_batchnum += 1.0
         if index % 100 == 0:
-            print( index /( len(user_input) // batch_size ) , one_epoch_loss / (index+1))
+            format_str = '# %s: Progress %.2f %%, Loss = %.4f'
+            print (format_str % ( datetime.now(), index /( len(user_input) // batch_size ) * 100 , one_epoch_loss / (index+1) ) )
+
+            # print( index /( len(user_input) // batch_size ) * 100 , one_epoch_loss / (index+1) )
+        
+    
         if index == len(user_input) // batch_size:
-                format_str = '**%s: %d epoch, iteration averge loss = %.4f '
+                format_str = '# ****%s: %d epoch, iteration averge loss = %.4f '
                 print (format_str % (datetime.now(), epoch, one_epoch_loss / one_epoch_batchnum))
 
+                # 计算 NDCG@10 与 HR@10
                 hr_list_10 = []
                 ndcg_list_10 = []
                 
@@ -456,25 +460,22 @@ for epoch in range( epochs ):
                 
                 for u, i in test_instances:
                     v_random = [i]
-    
                     v_random.extend( test_instances[(u,i)] )
-    
                     batch_u_test = [[u]]*len( v_random )
                     batch_v_test = list( np.reshape( v_random, (-1,1) ) )
-
                     pred_value = sess.run([pred_val], feed_dict={U_feature_input: batch_u_test, I_feature_input: batch_v_test})
                     pre_real_val = np.array(pred_value).reshape((-1))
 
-
                     items = v_random
                     gtItem = i
+                    # Get prediction scores
                     map_item_score = {}
                     for i in range(len(items)):
                         item = items[i]
                         map_item_score[item] = pre_real_val[i]
 
+                    # Evaluate top rank list
                     ranklist = heapq.nlargest(20, map_item_score, key=map_item_score.get)
-
             
                     hr_list_5.append(getHitRatio(ranklist[:5], gtItem))
                     ndcg_list_5.append(getNDCG(ranklist[:5], gtItem))
@@ -501,7 +502,7 @@ for epoch in range( epochs ):
                 final_ndcg_metric_list_20.append( np.array(ndcg_list_20).mean() )
                 
                 
-                print( "***RESULT HR@5,:NDCG@5: ", final_hr_metric_list_5[-1], final_ndcg_metric_list_5[-1] )
-                print( "***RESULT HR@10,:NDCG@10: ", final_hr_metric_list_10[-1], final_ndcg_metric_list_10[-1] )
-                print( "***RESULT HR@15,:NDCG@15: ", final_hr_metric_list_15[-1], final_ndcg_metric_list_15[-1] )
-                print( "***RESULT HR@20,:NDCG@20: ", final_hr_metric_list_20[-1], final_ndcg_metric_list_20[-1] )
+                print( "***Result HR@5,:NDCG@5: ", final_hr_metric_list_5[-1], final_ndcg_metric_list_5[-1] )
+                print( "***Result HR@10,:NDCG@10: ", final_hr_metric_list_10[-1], final_ndcg_metric_list_10[-1] )
+                print( "***Result HR@15,:NDCG@15: ", final_hr_metric_list_15[-1], final_ndcg_metric_list_15[-1] )
+                print( "***Result HR@20,:NDCG@20: ", final_hr_metric_list_20[-1], final_ndcg_metric_list_20[-1] )
