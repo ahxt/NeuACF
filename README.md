@@ -5,7 +5,7 @@ Please refer our paper if you use this code and the bibtex of this paper is:
 ```
 @inproceedings{han2018aspect,
    title={Aspect-Level Deep Collaborative Filtering via Heterogeneous Information Networks.},
-   author="\textbf{Han, Xiaotian} and Shi, Chuan and Wang, Senzhang and Philip, S Yu and Song, Li",
+   author="Han, Xiaotian and Shi, Chuan and Wang, Senzhang and Philip, S Yu and Song, Li",
    booktitle={IJCAI},
    pages={3393--3399},
    year={2018}
